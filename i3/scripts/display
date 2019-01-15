@@ -1,0 +1,29 @@
+#!/bin/sh
+
+
+eDP="eDP1"
+HDMI="HDM1"
+VGA="VGA1"
+unamestr=`uname -n`
+if [[ "$unamestr" == 'solus-e540' ]]; then
+	eDP="eDP-1-1"
+	HDMI="HDMI-1-1"
+	VGA="VGA-1-1"
+fi
+
+if [ "$1" = "dual" ]; then
+  xrandr --output $eDP --auto --right-of $HDMI --output $HDMI --auto
+  ~/.i3/scripts/vga1.sh
+fi
+if [ "$1" = "monitor" ]; then
+  xrandr --output $eDP --off
+  xrandr --output $VGA --off
+  xrandr | grep $HDMI' connected' && xrandr --output $HDMI --mode 1920x1200 --dpi 96
+  xrandr | grep $VGA' connected'  && ~/.i3/scripts/vga1.sh
+fi
+if [ "$1" = "laptop" ]; then
+  xrandr --output $eDP --auto --output $HDMI --off --output $VGA --off
+fi
+#xrandr --output LVDS1 --auto --right-of DP1 --output DP1 --mode 1920x1080 
+~/.fehbg
+~/.config/dunst/reload

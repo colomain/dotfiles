@@ -1,0 +1,3 @@
+EXCLUDES=".git README.md"
+SYMLINK_DIRS="i3 config/evolution config/nvim"
+TAGS=""
