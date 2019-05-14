@@ -22,6 +22,9 @@ Plug 'scrooloose/nerdtree'
 Plug 'joshdick/onedark.vim'
 Plug 'natebosch/vim-lsc'
 Plug 'derekwyatt/vim-scala'
+Plug 'sheerun/vim-polyglot'
+Plug 'trevordmiller/nova-vim'
+Plug 'neoclide/coc.nvim', {'do': './install.sh nightly'}
 
 
 Plug 'ensime/ensime-vim', { 'do': ':UpdateRemotePlugins' }
@@ -93,6 +96,7 @@ let g:airline_theme='onedark'
 
 " Configuration for vim-scala
 au BufRead,BufNewFile *.sbt set filetype=scala
+autocmd FileType json syntax match Comment +\/\/.\+$+
 
 " Configuration for vim-lsc
 let g:lsc_enable_autocomplete = v:false
@@ -115,8 +119,9 @@ set tabstop=2			" Show existing tab with 4 spaces width
 set autoindent			" Enable auto indenting
 set number				" Enable line numbers
 set relativenumber		" Enable line relative numbers
-set mouse=a				" Enable mouse for scrolling and resizing
-colorscheme onedark		" Set nice looking colorscheme
+" set mouse=a				" Enable mouse for scrolling and resizing
+" colorscheme onedark		" Set nice looking colorscheme
+colorscheme nova
 set background=dark		" Use colors that suit a dark background
 set noswapfile			" Disable swap files
 set nobackup			" Disable backup files

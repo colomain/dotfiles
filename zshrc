@@ -1,8 +1,8 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
-# export TERM="xterm-256color"
-export TERM="xterm-kitty"
+export TERM="xterm-256color"
+# export TERM="xterm-kitty"
 
 # Path to your oh-my-zsh installation.
 export ZSH=/home/jmmartinez/.oh-my-zsh
@@ -132,3 +132,5 @@ PERL_MM_OPT="INSTALL_BASE=/home/jmmartinez/perl5"; export PERL_MM_OPT;
 autoload -U compinit
 fpath=($HOME/.bloop/zsh $fpath)
 compinit
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
