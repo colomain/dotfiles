@@ -1,11 +1,8 @@
 #!/bin/sh
 
 unamestr=`uname -n`
-if [[ "$unamestr" = 'solus-e540' ]]; then
+if [[ $unamestr == solus-* ]]; then
 	nautilus --no-desktop
-	#sunflower
-elif [[ "$unamestr" = 'solus4-e540' ]]; then
-  nautilus --no-desktop
 else
 	pcmanfm
 fi

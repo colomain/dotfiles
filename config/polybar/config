@@ -18,11 +18,11 @@
 
 [colors]
 ;background = ${xrdb:color0:#222}
-background = #222
-background-alt = #444
+background = #aa222222
+background-alt = #aa44444
 ;foreground = ${xrdb:color7:#222}
 foreground = #dfdfdf
-foreground-alt = #555
+foreground-alt = #fff
 primary = #ffb52a
 secondary = #e60053
 alert = #bd2c40
@@ -51,25 +51,17 @@ padding-right = 2
 module-margin-left = 1
 module-margin-right = 2
 
-font-0 = San Francisco Display Regular:size=11;1
-font-1 = unifont:fontformat=truetype:size=11:antialias=false;0
-font-2 = "MaterialIcons:size=11:antialias=false;1"
-font-3 = "icomoon-extended-ultra:size=11:antialias=false;1"
-font-4 = "Ubuntu Nerd Font:size=11:antialias=false;1"
-font-5 = FontAwesome:size=11;1
-
-;font-0 = Iosevka Medium:pixelsize=10;1:antialias=true;0
-;font-1 = Hack Nerd Font:pixelsize=10;1:antialias=true;0
-;font-2 = Fixedsys Excelsior:pixelsize=10:size=8:antialias=true;1
-;font-3 = Unifont:fontformat=truetype:size=8:antialias=true;0
-;font-4 = Wuncon Siji:pixelsize=10;1:antialias=true;0
-;font-5 = Font Awesome 5 Brands:pixelsize=10;1:antialias=true;0
-;font-6 = Font Awesome 5 Free:pixelsize=10;1:antialias=true;0
-;font-7 = MaterialIcons-Regular:pixelsize=10;1:antialias=true;0
+;font-0 = Hack:style=Regular:pixelsize=10;1:antialias=true;0
+;font-1 = Iosevka Medium:pixelsize=10;1:antialias=true;0
+;font-3 = Material\-Design\-Iconic\-Font:style=Design-Iconic-Font
+;font-4 = FantasqueSansMono Nerd Font Mono:style=Regular
+font-0 = "FantasqueSansMono Nerd Font Mono:style=Regular;pixelsize=10;3"
+font-1 = "Iosevka Nerd Font:pixelsize=13;3"
+font-2 = FontAwesome:style=Regular;size=11;3
 
 modules-left = i3 xwindow
 modules-center = date
-modules-right = filesystem xbacklight pulseaudio memory cpu wlan eth battery temperature 
+modules-right = vpn-status filesystem xbacklight pulseaudio xkeyboard memory cpu wlan eth battery temperature 
 
 ; Position of the system tray window
 ; If empty or undefined, tray support will be disabled
@@ -118,6 +110,45 @@ tray-scale = 1.0
 
 cursor-click = pointer
 cursor-scroll = ns-resize
+
+[bar/tray]
+modules-left =
+modules-center =
+modules-right =
+
+tray-position = right
+
+; If true, the bar will not shift its
+; contents when the tray changes
+tray-detached = false
+
+; Tray icon max size
+tray-maxsize = 16
+
+; Enable pseudo transparency
+; Will automatically be enabled if a fully transparent
+; background color is defined using `tray-background`
+tray-transparent = false
+
+; Background color for the tray container
+; By default the tray container will use the bar
+; background color.
+; Note: 32 bit alpha blending is not supported.
+tray-background = ${root.background}
+
+; Tray offset defined as pixel value (e.g. 35) or percentage (e.g. 50%)
+tray-offset-x = 0
+tray-offset-y = 0
+
+; Pad the sides of each tray icon
+tray-padding = 0
+
+; Scale factor for tray clients
+tray-scale = 1.0
+
+;wm-restack = i3
+
+;override-redirect = true
 
 [module/xwindow]
 type = internal/xwindow
@@ -364,26 +395,38 @@ battery = BAT0
 adapter = ADP1
 full-at = 98
 
-format-charging = B <label-charging>
-/* format-charging = <animation-charging> <label-charging> */
+/* format-charging = B <label-charging> */
+format-charging = <animation-charging> <label-charging>
 format-charging-underline = #ffb52a
 
-format-discharging = B <label-discharging>
-/* format-discharging = <animation-discharging> <label-discharging> */
+/* format-discharging = B <label-discharging> */
+format-discharging = <ramp-capacity> <label-discharging>
 format-discharging-underline = ${self.format-charging-underline}
 
-format-full-prefix = " "
+format-full-prefix = " "
 format-full-prefix-foreground = ${colors.foreground-alt}
 format-full-underline = ${self.format-charging-underline}
 
-ramp-capacity-0 = 
-ramp-capacity-1 = 
-ramp-capacity-2 = 
+ramp-capacity-0 = 
+ramp-capacity-1 = 
+ramp-capacity-2 = 
+ramp-capacity-3 = 
+ramp-capacity-4 = 
+ramp-capacity-5 = 
+ramp-capacity-6 = 
+ramp-capacity-7 = 
+ramp-capacity-8 = 
+ramp-capacity-9 = 
+
 ramp-capacity-foreground = ${colors.foreground-alt}
 
-animation-charging-0 = 
-animation-charging-1 = 
-animation-charging-2 = 
+animation-charging-0 = 
+animation-charging-1 = 
+animation-charging-2 = 
+animation-charging-3 = 
+animation-charging-4 = 
+animation-charging-5 = 
+animation-charging-6 = 
 animation-charging-foreground = ${colors.foreground-alt}
 animation-charging-framerate = 750
 
@@ -391,6 +434,7 @@ animation-discharging-0 = 
 animation-discharging-1 = 
 animation-discharging-2 = 
 animation-discharging-foreground = ${colors.foreground-alt}
+
 animation-discharging-framerate = 750
 
 [module/temperature]
@@ -425,3 +469,10 @@ margin-top = 5
 margin-bottom = 5
 
 ; vim:ft=dosini
+
+[module/vpn-status]
+type = custom/script
+exec = ~/.config/polybar/scripts/vpn-status.sh
+interval = 5
+click-left = nmcli con up Goldcar
+click-right = nmcli con down Goldcar

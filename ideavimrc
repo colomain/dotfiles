@@ -1,0 +1,23 @@
+let mapleader = ","
+
+" source ~/.config/nvim/init.vim
+" Clone paragraph with cp. This will copy the paragraph your cursor is on then
+" paste a copy of it just below.
+noremap cp yap<S-}>p
+noremap <leader>t ciwtrue<esc>
+noremap <leader>f ciwfalse<esc>
+
+noremap <leader>p "+P<esc>
+noremap <leader>y "+y<esc>
+
+
+nnoremap  <leader>;;  :action CommentByLineComment<CR>
+vnoremap  <leader>;   :action CommentByLineComment<CR>
+
+nnoremap  gcc  :action CommentByLineComment<CR>
+
+set number				" Enable line numbers
+set relativenumber		" Enable line relative numbers
+
+set surround
+set multiple-cursors
