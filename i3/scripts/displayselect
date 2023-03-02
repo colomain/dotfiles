@@ -51,3 +51,6 @@ pgrep -x dunst >/dev/null && killall dunst && setsid dunst &
 if [[ $chosen == *"VGA"* ]]; then
   ~/bin/vga1.sh
 fi
+if [[ $chosen == *"DP-1"* ]]; then
+	xrandr --output eDP-1 --off
+fi

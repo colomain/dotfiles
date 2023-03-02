@@ -26,23 +26,25 @@ set $super bindsym $mod
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font FantasqueSansMono Nerd Font Mono:Fira Sans 11
+font pango:Hack Nerd Font 11
 
 ########## Autolaunch ##########
 exec --no-startup-id nm-applet
 exec --no-startup-id /usr/lib64/polkit-gnome/polkit-gnome-authentication-agent-1
-exec --no-startup-id compton -b --config ~/.config/compton/compton.conf
+#exec --no-startup-id compton -b --config ~/.config/compton/compton.conf
 exec --no-startup-id redshift -l 41.4379:2.1956
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 exec --no-startup-id dropbox start
 # exec --no-startup-id skypeforlinux
-exec --no-startup-id /usr/bin/telegram
+exec --no-startup-id /opt/Telegram/Telegram
 exec --no-startup-id /usr/bin/slack
 exec_always ~/.fehbg
+exec_always --no-startup-id feh --randomize --bg-scale ~/.i3/wallpapers/*
 # exec --no-startup-id /usr/bin/brave-browser --profile-directory=Default --app-id=hnpfjngllnobngcgfapefoaidbinmjnm
 # exec --no-startup-id gtk-launch whatsapp
-exec --no-startup-id firefox -profile /home/jmmartinez/.local/share/ice/firefox/web.whatsapp.com -no-remote -new-instance https://web.whatsapp.com
-exec --no-startup-id GTK_THEME=Adapta-Eta evolution
+# exec --no-startup-id firefox -profile /home/jmmartinez/.local/share/ice/firefox/web.whatsapp.com -no-remote -new-instance https://web.whatsapp.com
+# exec --no-startup-id GTK_THEME=Adapta-Eta evolution
+exec --no-startup-id xrandr --output DP-1 --primary --left-of eDP-1 --auto
 
 
 
@@ -65,7 +67,7 @@ bindsym XF86AudioNext exec playerctl next
 
 ### Other ###
 #bindsym Print exec scrot -q 100
-bindsym Print exec gnome-screenshot -ia
+bindsym Print exec flameshot gui
 
 ### Sound ###
 # Raise Volume
@@ -78,9 +80,9 @@ bindsym XF86AudioMute exec --no-startup-id amixer -D pulse sset Master toggle-mu
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
-# bindsym $mod+Return exec gnome-terminal
-# bindsym $mod+Return exec kitty
+# bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec gnome-terminal
+bindsym $mod+Shift+Return exec alacritty --class timewarrior
 
 # kill focused window
 bindsym $mod+q kill
@@ -191,6 +193,25 @@ bindsym $mod+Shift+8 move container to workspace $ws8
 bindsym $mod+Shift+9 move container to workspace $ws9
 bindsym $mod+Shift+0 move container to workspace $ws10
 
+# Move workspaces betweeen monitors
+bindsym $mod+Control+l move workspace to output right
+bindsym $mod+Control+h move workspace to output left
+
+# multi monitor
+set $main DP-1
+set $aux  eDP-1
+
+workspace $ws1 output $aux
+workspace $ws2 output $main
+workspace $ws3 output $main
+workspace $ws4 output $aux
+workspace $ws5 output $main
+workspace $ws6 output $main
+workspace $ws7 output $main
+workspace $ws8 output $main
+workspace $ws9 output $main
+workspace $ws10 output $aux
+
 # Workspace back and forth (with/without active container)
 workspace_auto_back_and_forth no
 bindsym $mod+Escape workspace back_and_forth
@@ -201,7 +222,7 @@ bindsym $mod+Escape workspace back_and_forth
 #bindsym $mod+x move workspace to output right
 
 # reload the configuration file
-bindsym $mod+Shift+c reload
+# bindsym $mod+Shift+c reload
 
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
@@ -209,7 +230,7 @@ bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
 #bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
-set $session "(E)xit (L)ock (P)oweroff (R)eboot (S)uspend"
+set $session "(E)xit (L)ock (P)oweroff (R)eboot (S)uspend (M)onitor"
 mode  $session {
          bindsym e exec $psst i3-msg exit; mode "default"
          #bindsym l exec $psst ~/.i3/scripts/lock.sh; mode "default"
@@ -218,6 +239,7 @@ mode  $session {
          bindsym r exec $psst systemctl reboot; mode "default"
          #bindsym s exec $psst ~/.i3/scripts/lock.sh && systemctl suspend; mode "default"
          bindsym s exec systemctl suspend; mode "default"
+				 bindsym m exec xset -display :0.0 dpms force off; mode "default"
 
          bindsym q mode "default"
          bindsym Escape mode "default"
@@ -240,7 +262,7 @@ bindsym $mod+Shift+e mode $session
 # }
 # bindsym $mod+m mode "$mode_display"
 
-bindsym $mod+m exec --no-startup-id ~/.i3/scripts/displayselect
+bindsym $mod+shift+d exec --no-startup-id ~/.i3/scripts/displayselect
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -289,6 +311,10 @@ bindsym $mod+o     resize grow width 1 px or 1 ppt
 #             urgent_workspace #ff5757 #ff5757 #fafafa
 #         }
 #}
+# bar {
+# 	status_command exec ~/bin/mybar
+# 	font pango:DejaVu Sans Mono 10
+# }
 
 ########## Styling ##########
 
@@ -365,8 +391,9 @@ set $mode_keyboards Keyboard: (u)s, (e)s
 bindsym $mod+$alt+k mode "$mode_keyboards"
 
 mode "$mode_keyboards" {
-				bindsym u exec --no-startup-id ~/bin/skb; mode "default"
-				bindsym e exec --no-startup-id "setxkbmap -layout es"; exec killall xcape; mode "default"
+				bindsym u exec --no-startup-id ~/bin/skb_us; mode "default"
+				bindsym e exec --no-startup-id ~/bin/skb_es; mode "default"
+				# bindsym e exec --no-startup-id "setxkbmap -layout es"; exec killall xcape; mode "default"
 
         bindsym Return mode "default"
         bindsym Escape mode "default"
@@ -378,14 +405,14 @@ mode "$mode_keyboards" {
 # exec_always "setxkbmap -layout es"
 # exec_always --no-startup-id setxkbmap -layout us -variant altgr-intl -option nodeadkeys
 # exec --no-startup-id xcape -e 'Shift_R=ISO_Level3_Shift|apostrophe;Shift_L=ISO_Level3_Shift|grave'
-exec --no-startup-id ~/bin/skb
+exec_always --no-startup-id ~/bin/skb_us
 exec_always --no-startup-id xrdb -merge ~/.Xresources
 
 ########## Other bindings ##########
-bindsym $mod+g exec --no-startup-id "env XDG_CURRENT_DESKTOP=GNOME gnome-control-center sound"
+bindsym $mod+g exec --no-startup-id "env XDG_CURRENT_DESKTOP=GNOME budgie-control-center sound"
 bindsym $mod+f exec --no-startup-id ~/.i3/scripts/launchfm
 # bindsym $mod+c exec --no-startup-id gnome-terminal --class="calendar" --role="calendar" --title="calendar" -e calcurse
-bindsym $mod+c $exe i3run -c calendar -s -e "gnome-terminal --class=calendar -e calcurse"
+# bindsym $mod+c $exe i3run -c calendar -s -e "gnome-terminal --class=calendar -e calcurse"
 # bindsym $mod+c exec --no-startup-id urxvt -name calendar -e calcurse
 bindsym $mod+Shift+p $exe ~/.i3/scripts/layout_manager.sh
 
@@ -408,18 +435,23 @@ for_window [class="Enpass"] floating enable
 for_window [class="Lxappearance"] floating enable
 for_window [class="Update-manager"] floating enable
 for_window [class="Solus-sc"] floating enable
+for_window [class="Solus-sc"] border pixel 0 
 for_window [class="Pamac-manager"] floating enable
 for_window [class="I3-exit"] floating enable border normal
 for_window [class="Nautilus"] floating enable
 for_window [class="Pcmanfm"] floating enable
 for_window [class="Sunflower"] floating enable
 for_window [class="Calculadora"] floating enable
+for_window [class="gnome-calculator"] floating enable
 for_window [window_role="gnome-calculator"] floating enable
 for_window [class="Transmission-gtk"] floating enable
 for_window [class="sun-awt-X11-XFramePeer"] floating enable
 for_window [class="File-roller"] floating enable
 for_window [class="Gnome-tweak-tool"] floating enable
 for_window [class="Gnome-control-center"] floating enable
+for_window [class="gnome-control-center"] floating enable
+for_window [class="budgie-control-center"] floating enable
+for_window [class="Budgie-control-center"] floating enable
 for_window [class="Doflicky-ui"] floating enable
 for_window [class="Peek"] floating enable
 for_window [class="Eog"] floating enable
@@ -432,34 +464,53 @@ for_window [class="zoom"] floating enable
 for_window [class="budgie-panel"] floating enable
 for_window [class="Budgie-panel"] floating enable
 for_window [title="WhatsApp - Mozilla Firefox"] floating enable
+for_window [title="WhatsApp"] floating enable
+for_window [title="Franz"] floating enable
+for_window [class="Lollypop"] floating enable border none
+for_window [class="sayonara"] floating enable border none
+for_window [class="Gcolor3"] floating enable
+for_window [class="Microsoft Teams - Preview"] floating enable
+for_window [title="bitacora_trabajo.md"] floating enable
+for_window [class="SimpleScreenRecorder"] floating enable
 # for_window [class="Evolution" window_role="^EMsgComposer-$"] floating enable
 # for_window [window_role="^EMailBrowser$"] floating enable
 # for_window [class="Evolution" window_role="EMsgcomposer"] floating enable
 # for_window [class="Evolution" window_role="EMsgcomposer"] resize set 1200 800
 # for_window [class="Evolution" window_role="EMsgcomposer"] move position center
+for_window [class="Cider"] floating enable
+for_window [title="splash"] floating enable
+for_window [class="timewarrior"] floating enable
 
 
 ########## Scratchpad ##########
+bindsym $mod+Shift+c [window_role="gnome-calculator"] move scratchpad
+bindsym $mod+c [window_role="gnome-calculator"] scratchpad show
 bindsym $mod+Shift+comma [instance="slack|ripcord|current"] move scratchpad
 bindsym $mod+comma [instance="slack|ripcord|current"] scratchpad show
 # bindsym $mod+Shift+period [instance="skype"] move scratchpad
 # bindsym $mod+period [instance="skype"] scratchpad show
 # bindsym $mod+Shift+minus [instance="Telegram"] move scratchpad
 # bindsym $mod+minus [instance="Telegram"] scratchpad show
-bindsym $mod+Shift+slash [instance="telegram"] move scratchpad
-bindsym $mod+slash [instance="telegram"] scratchpad show
-bindsym $mod+Shift+T [instance="transmission-gtk"] move scratchpad
-bindsym $mod+t [instance="transmission-gtk"] scratchpad show
-# bindsym $mod+Shift+N [instance="discord"] move scratchpad
-# bindsym $mod+n [instance="discord"] scratchpad show
+bindsym $mod+Shift+slash [class="TelegramDesktop"] move scratchpad
+bindsym $mod+slash [class="TelegramDesktop"] scratchpad show
+# bindsym $mod+Shift+T [instance="transmission-gtk"] move scratchpad
+# bindsym $mod+t [instance="transmission-gtk"] scratchpad show
+bindsym $mod+Shift+T [instance="timewarrior"] move scratchpad
+bindsym $mod+t [instance="timewarrior"] scratchpad show; move center
+bindsym $mod+Shift+N [instance="sayonara"] move scratchpad
+bindsym $mod+n [instance="sayonara"] scratchpad show
 bindsym $mod+Shift+Z [instance="zoom"] move scratchpad
 bindsym $mod+z [instance="zoom"] scratchpad show
-# bindsym $mod+Shift+period [class="Brave-browser" instance="crx_hnpfjngllnobngcgfapefoaidbinmjnm"] move scratchpad
-# bindsym $mod+period [class="Brave-browser" instance="crx_hnpfjngllnobngcgfapefoaidbinmjnm"] scratchpad show
-bindsym $mod+Shift+period [title="WhatsApp - Mozilla Firefox"] move scratchpad
-bindsym $mod+period [title="WhatsApp - Mozilla Firefox"] scratchpad show
-bindsym $mod+Shift+n [instance="mattermost"] move scratchpad
-bindsym $mod+n [instance="mattermost"] scratchpad show
+# bindsym $mod+Shift+t [class="Microsoft Teams - Preview"] move scratchpad
+# bindsym $mod+t [class="Microsoft Teams - Preview"] scratchpad show
+# bindsym $mod+Shift+period [title="Franz"] move scratchpad
+# bindsym $mod+period [title="Franz"] scratchpad show
+# bindsym $mod+Shift+period [title="WhatsApp - Mozilla Firefox"] move scratchpad
+# bindsym $mod+period [title="WhatsApp - Mozilla Firefox"] scratchpad show
+bindsym $mod+Shift+period [instance="crx_hnpfjngllnobngcgfapefoaidbinmjnm"] move scratchpad
+bindsym $mod+period [instance="crx_hnpfjngllnobngcgfapefoaidbinmjnm"] scratchpad show
+bindsym $mod+Shift+M [title="bitacora_trabajo.md"] move scratchpad
+bindsym $mod+m [title="bitacora_trabajo.md"] scratchpad show
 
 bindsym $mod+Control+Left resize set 940 1035; move position 20 45
 bindsym $mod+Control+Right resize set 940 1035; move position 960 45
