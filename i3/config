@@ -31,7 +31,7 @@ font pango:Hack Nerd Font 11
 ########## Autolaunch ##########
 exec --no-startup-id nm-applet
 exec --no-startup-id /usr/lib64/polkit-gnome/polkit-gnome-authentication-agent-1
-#exec --no-startup-id compton -b --config ~/.config/compton/compton.conf
+exec --no-startup-id picom --config ~/.config/picom/picom.conf
 exec --no-startup-id redshift -l 41.4379:2.1956
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 exec --no-startup-id dropbox start
@@ -44,7 +44,11 @@ exec_always --no-startup-id feh --randomize --bg-scale ~/.i3/wallpapers/*
 # exec --no-startup-id gtk-launch whatsapp
 # exec --no-startup-id firefox -profile /home/jmmartinez/.local/share/ice/firefox/web.whatsapp.com -no-remote -new-instance https://web.whatsapp.com
 # exec --no-startup-id GTK_THEME=Adapta-Eta evolution
-exec --no-startup-id xrandr --output DP-1 --primary --left-of eDP-1 --auto
+# exec --no-startup-id xrandr --output DP-1 --primary --left-of eDP-1 --auto
+# exec --no-startup-id xrandr --output HDMI-2 --primary --left-of DP-1 --auto
+# exec --no-startup-id /home/jmmartinez/bin/autorandr -l hdmi-dp
+# exec_always --no-startup-id /home/jmmartinez/.screenlayout/hdmi-dp.sh
+# exec --no-startup-id xrandr --output DP-1 --primary --mode 2560x1440 --output HDMI-2 --mode 2560x1440 --pos 2560x153 --output HDMI-1 --off --output eDP-1 --off 
 
 
 
@@ -82,7 +86,8 @@ floating_modifier $mod
 # start a terminal
 # bindsym $mod+Return exec i3-sensible-terminal
 bindsym $mod+Return exec gnome-terminal
-bindsym $mod+Shift+Return exec alacritty --class timewarrior
+# bindsym $mod+Shift+Return exec alacritty --class timewarrior
+bindsym $mod+Shift+Return exec /opt/warp/Warp-x86_64.AppImage --class timewarrior
 
 # kill focused window
 bindsym $mod+q kill
@@ -198,8 +203,9 @@ bindsym $mod+Control+l move workspace to output right
 bindsym $mod+Control+h move workspace to output left
 
 # multi monitor
+# eDP-1 -> Laptop built-in monitor
 set $main DP-1
-set $aux  eDP-1
+set $aux HMDI-2
 
 workspace $ws1 output $aux
 workspace $ws2 output $main
@@ -215,6 +221,7 @@ workspace $ws10 output $aux
 # Workspace back and forth (with/without active container)
 workspace_auto_back_and_forth no
 bindsym $mod+Escape workspace back_and_forth
+bindsym --release $mod+Shift+Escape exec --no-startup-id xkill
 # bindsym $mod+Shift+Esc move container to workspace back_and_forth; workspace back_and_forth
 
 # move container
@@ -246,6 +253,7 @@ mode  $session {
 }
 
 bindsym $mod+Shift+e mode $session
+# bindsym $mod+Shift+e exec ~/bin/powermenu
 
 # bindsym $mod+Shift+e exec --no-startup-id rofi_run -l
 
@@ -416,6 +424,9 @@ bindsym $mod+f exec --no-startup-id ~/.i3/scripts/launchfm
 # bindsym $mod+c exec --no-startup-id urxvt -name calendar -e calcurse
 bindsym $mod+Shift+p $exe ~/.i3/scripts/layout_manager.sh
 
+# Delete all unread gmail messages from view
+bindsym $mod+Shift+x $exe ~/bin/gmail_delete_unread_from_view
+
 ########## Floating ##########
 for_window [class="^.*"] border pixel 1
 for_window [window_role="pop-up"] floating enable
@@ -480,11 +491,14 @@ for_window [class="SimpleScreenRecorder"] floating enable
 for_window [class="Cider"] floating enable
 for_window [title="splash"] floating enable
 for_window [class="timewarrior"] floating enable
+for_window [class="Tk"] floating enable
 
 
 ########## Scratchpad ##########
-bindsym $mod+Shift+c [window_role="gnome-calculator"] move scratchpad
-bindsym $mod+c [window_role="gnome-calculator"] scratchpad show
+# bindsym $mod+Shift+c [window_role="gnome-calculator"] move scratchpad
+# bindsym $mod+c [window_role="gnome-calculator"] scratchpad show
+bindsym $mod+Shift+c [class="Cider"] move scratchpad
+bindsym $mod+c [class="Cider"] scratchpad show
 bindsym $mod+Shift+comma [instance="slack|ripcord|current"] move scratchpad
 bindsym $mod+comma [instance="slack|ripcord|current"] scratchpad show
 # bindsym $mod+Shift+period [instance="skype"] move scratchpad
@@ -496,7 +510,7 @@ bindsym $mod+slash [class="TelegramDesktop"] scratchpad show
 # bindsym $mod+Shift+T [instance="transmission-gtk"] move scratchpad
 # bindsym $mod+t [instance="transmission-gtk"] scratchpad show
 bindsym $mod+Shift+T [instance="timewarrior"] move scratchpad
-bindsym $mod+t [instance="timewarrior"] scratchpad show; move center
+bindsym $mod+t [instance="timewarrior"] scratchpad show; move position center
 bindsym $mod+Shift+N [instance="sayonara"] move scratchpad
 bindsym $mod+n [instance="sayonara"] scratchpad show
 bindsym $mod+Shift+Z [instance="zoom"] move scratchpad
@@ -505,10 +519,10 @@ bindsym $mod+z [instance="zoom"] scratchpad show
 # bindsym $mod+t [class="Microsoft Teams - Preview"] scratchpad show
 # bindsym $mod+Shift+period [title="Franz"] move scratchpad
 # bindsym $mod+period [title="Franz"] scratchpad show
-# bindsym $mod+Shift+period [title="WhatsApp - Mozilla Firefox"] move scratchpad
-# bindsym $mod+period [title="WhatsApp - Mozilla Firefox"] scratchpad show
-bindsym $mod+Shift+period [instance="crx_hnpfjngllnobngcgfapefoaidbinmjnm"] move scratchpad
-bindsym $mod+period [instance="crx_hnpfjngllnobngcgfapefoaidbinmjnm"] scratchpad show
+bindsym $mod+Shift+period [title=".*WhatsApp.*"] move scratchpad
+bindsym $mod+period [title=".*WhatsApp.*"] scratchpad show
+# bindsym $mod+Shift+period [instance="crx_hnpfjngllnobngcgfapefoaidbinmjnm"] move scratchpad
+# bindsym $mod+period [instance="crx_hnpfjngllnobngcgfapefoaidbinmjnm"] scratchpad show
 bindsym $mod+Shift+M [title="bitacora_trabajo.md"] move scratchpad
 bindsym $mod+m [title="bitacora_trabajo.md"] scratchpad show
 

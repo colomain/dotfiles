@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
 
+export POLYBAR_PATH="$HOME/.config/polybar"
+
 # Terminate already running bar instances
 killall -q polybar
 

@@ -16,6 +16,9 @@ nnoremap <leader>p :action PasteMultiple<CR>
 " noremap <leader>p "+P<esc>
 noremap <leader>y "+y<esc>
 
+" xnoremap p pgvy
+xnoremap p "_dP
+
 
 nnoremap  <leader>;;  :action CommentByLineComment<CR>
 vnoremap  <leader>;   :action CommentByLineComment<CR>
@@ -26,6 +29,7 @@ set relativenumber		" Enable line relative numbers
 
 set surround
 set multiple-cursors
+set sneak
 
 set history=1000
 set visualbell
@@ -85,6 +89,8 @@ nnoremap <leader>gs :action ActivateStructureToolWindow<CR>
 nnoremap <leader>sp :action ParameterInfo<CR>
 nnoremap <leader>si :action Scala.ShowImplicitArguments<CR>
 nnoremap <leader>sd :action QuickImplementations<CR>
+nnoremap g] :action GotoNextSplitter<CR>
+nnoremap g[ :action GotoPreviousSplitter<CR>
 
 " Types
 nnoremap K :action Scala.TypeInfo<CR>
