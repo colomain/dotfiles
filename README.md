@@ -1,44 +1,29 @@
 
-colomain's dotfiles
-===================
+# colomain's dotfiles
 
-Requirements
-------------
+## Requirements
 
 Set zsh as your login shell:
 
-    chsh -s $(which zsh)
+```
+> chsh -s $(which zsh)
+```
 
-Install
--------
+## Install
 
-Clone onto your laptop:
+### Clone onto your laptop:
 
-    git clone git://github.com/colomain/dotfiles.git ~/dotfiles
+```
+> git clone git://github.com/colomain/dotfiles.git ~/dotfiles
+```
 
+Install [stow](https://www.gnu.org/s/stow/):
 
-Install [rcm](https://github.com/thoughtbot/rcm):
-
-Mac
-
-    brew tap thoughtbot/formulae
-    brew install rcm
-
-Linux
-
-    sudo eopkg it rcm
 		
-Install the dotfiles:
+### Install the dotfiles:
 
-Mac
+```
+> cd ~/dotfiles
+~/dotfiles> stow .
+```
 
-    env RCRC=$HOME/dotfiles/rcrc rcup
-
-Linux
-
-    RCRC=~/dotfiles/rcrc rcup
-
-After the initial installation, you can run `rcup` without the one-time variable
-`RCRC` being set (`rcup` will symlink the repo's `rcrc` to `~/.rcrc` for future
-runs of `rcup`). [See
-example](https://github.com/thoughtbot/dotfiles/blob/master/rcrc).

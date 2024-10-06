@@ -15,4 +15,4 @@ rofi.separator-style:                solid
 rofi.font: System San Francisco Display 14
 rofi.case-sensitive: false
 rofi.opacity: 90
-rofi.theme: /usr/share/rofi/themes//glue_pro_blue.rasi
+rofi.theme: /usr/share/rofi/themes/glue_pro_blue.rasi
