@@ -96,6 +96,7 @@ export SSH_AUTH_SOCK
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+
 export JAVA_HOME=/opt/jdk/current
 # export GRAALVM_HOME=/opt/graalvm/current
 export JDK_HOME=/opt/jdk/current
