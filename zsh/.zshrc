@@ -150,7 +150,6 @@ alias tall='bloop test core system pri web'
 # alias test='./test'
 
 alias i3config="vim ~/.i3/config"
-alias ensime="ctags -Re . & sbt clean ensimeConfig test:compile ensimeServerIndex"
 
 alias bitacora="\vim ~/Dropbox/Documentos/Jose/bitacora.md"
 alias vim="nvim"
