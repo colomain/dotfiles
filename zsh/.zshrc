@@ -96,7 +96,6 @@ export SSH_AUTH_SOCK
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-
 export JAVA_HOME=/opt/jdk/current
 # export GRAALVM_HOME=/opt/graalvm/current
 export JDK_HOME=/opt/jdk/current
@@ -151,6 +150,7 @@ alias tall='bloop test core system pri web'
 # alias test='./test'
 
 alias i3config="vim ~/.i3/config"
+alias ensime="ctags -Re . & sbt clean ensimeConfig test:compile ensimeServerIndex"
 
 alias bitacora="\vim ~/Dropbox/Documentos/Jose/bitacora.md"
 alias vim="nvim"
@@ -164,7 +164,6 @@ export APP_DIR="/home/sbtuser"
 export AE="acceptance-executor"
 export DC="docker-compose -f $DOCKER_COMPOSE_FILE"
 export DC_EXEC="$DC exec -T -u sbtuser -w $APP_DIR"
-
 
 
 # function rcp() { rsync -rahP --modify-window=1 "$@" }
