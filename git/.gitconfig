@@ -1,0 +1,29 @@
+[user]
+	name = Josep Maria Martinez
+	email = extern.jose-maria.martinez@europcar.com
+[core]
+	autocrlf = input
+	safecrlf = true
+[alias]
+  co = checkout
+  ci = commit
+  st = status
+  br = branch
+  hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+  type = cat-file -t
+  dump = cat-file -p
+[http]
+	sslVerify = false
+[gitflow "feature.finish"]
+	no-ff = true
+[credentila]
+	helper = gnome-keyring
+[credential]
+	helper = store
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[init]
+	defaultBranch = main
